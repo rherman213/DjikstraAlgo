@@ -1,0 +1,137 @@
+# John Zitto jvz4@psu.edu
+
+# Jarod Wirtz jxw728@psu.edu
+
+# Ryan Herman rqh5359@psu.edu
+
+ 
+
+import math
+
+ 
+
+graphDict={}
+
+ 
+
+abc=input().split(" ")
+
+numVertices=int(abc[0])
+
+numEdges=int(abc[1])
+
+source=int(abc[2])
+
+ 
+
+i=0
+
+l=[]
+
+while i < numEdges:
+
+    l.append(input())
+
+    i += 1
+
+ 
+
+for element in l:
+
+  nestedList=[]
+
+  abc=element.split(" ")
+
+  start=int(abc[0])
+
+  end=int(abc[1])
+
+  length=int(abc[2])
+
+  nestedList.append(end)
+
+  nestedList.append(length)
+
+  if graphDict.get(start)==None:
+
+    graphDict[start]=[nestedList]
+
+  else:
+
+    graphDict[start].append(nestedList)
+
+ 
+
+for element in l:
+
+  abc= element.split(" ")
+
+  check=int(abc[1])
+
+  if check not in graphDict:
+
+    graphDict[check] = [[-1,math.inf]]
+
+ 
+
+paths={}
+
+unvisited={}
+
+ 
+
+for node in graphDict:
+
+  paths[node]=math.inf
+
+  unvisited[node]=math.inf
+
+#print(graphDict)
+
+paths[source]=0
+
+node=source
+
+unvisited[node]=0
+
+ 
+
+if len(graphDict)==1:
+
+  print(paths)
+
+while (len(unvisited)!=0):
+
+  for neighbor in (graphDict.get(node)):
+
+    if neighbor[0]==-1:
+
+      paths[node] = paths.get(node)
+
+      continue
+
+    if(paths[node]+neighbor[1]<paths[neighbor[0]]):
+
+      paths[neighbor[0]]= paths[node]+neighbor[1]
+
+      unvisited[neighbor[0]]=paths[node]+neighbor[1]
+
+ 
+
+  unvisited.pop(node)
+
+  if (len(unvisited)!=0):
+
+    node=min(unvisited)
+
+ 
+
+for key in sorted(paths):
+
+  if paths[key]==math.inf:
+
+    print(-1)
+
+  else:
+
+    print(paths[key])
